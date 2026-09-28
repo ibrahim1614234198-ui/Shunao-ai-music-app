@@ -1,0 +1,4 @@
+{
+  "buildCommand": "echo Using prebuilt Flutter web files",
+  "outputDirectory": "build/web"
+}
