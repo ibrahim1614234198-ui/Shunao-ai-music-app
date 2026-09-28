@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "386392866592",
+    "project_id": "shunao-ai-music",
+    "storage_bucket": "shunao-ai-music.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386392866592:android:ebc3ceb8cc64c54cace145",
+        "android_client_info": {
+          "package_name": "com.example.shunao_ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR3DmZtZDvPaujnCtM4k2607dw-co_oXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
