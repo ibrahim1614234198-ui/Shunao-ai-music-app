@@ -1,4 +1,4 @@
-name: Setup Flutter Project
+name: Setup Flutter Web Project
 
 on:
   workflow_dispatch:
@@ -28,7 +28,7 @@ jobs:
 
       - name: Create Flutter project files
         run: |
-          flutter create --platforms=android .
+          flutter create --platforms=android,web .
 
       - name: Restore app files
         run: |
@@ -39,10 +39,13 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Commit generated Flutter files
+      - name: Build Flutter Web
+        run: flutter build web --release
+
+      - name: Commit generated files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Setup Flutter Android project" || echo "No changes to commit"
+          git commit -m "Build Flutter web app" || echo "No changes to commit"
           git push
