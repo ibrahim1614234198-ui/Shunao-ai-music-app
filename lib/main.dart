@@ -13,14 +13,12 @@ class ShunaoApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Shunao AI',
-      theme: ThemeData(
-        brightness: Brightness.dark,
+      theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: const Color(0xFF080808),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.purple,
           brightness: Brightness.dark,
         ),
-        useMaterial3: true,
       ),
       home: const HomeScreen(),
     );
@@ -39,12 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
   final Api api = Api();
 
   bool generating = false;
+  String result = '';
 
   Future<void> generateSong() async {
-    if (promptController.text.trim().isEmpty) {
+    final prompt = promptController.text.trim();
+
+    if (prompt.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('আগে একটি song description লিখুন'),
+          content: Text('আগে গানের description লিখুন'),
         ),
       );
       return;
@@ -52,19 +53,43 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       generating = true;
+      result = '';
     });
 
     try {
-      final result = await api.generateSong(
-        promptController.text.trim(),
-      );
+      final response = await api.generateSong(prompt);
 
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(result),
-        ),
-      );
+      setState(() {
+        result = response;
+        generating = false;
+      });
     } catch (e) {
       if (!mounted) return;
+
+      setState(() {
+        generating = false;
+        result = 'Error: $e';
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    promptController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          'Shunao AI',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
