@@ -1,0 +1,43 @@
+name: Setup Flutter Project
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Backup app files
+        run: |
+          cp pubspec.yaml /tmp/pubspec.yaml
+          cp -r lib /tmp/lib
+
+      - name: Create Flutter project files
+        run: |
+          flutter create --platforms=android .
+
+      - name: Restore app files
+        run: |
+          rm -rf lib
+          cp -r /tmp/lib lib
+          cp /tmp/pubspec.yaml pubspec.yaml
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Commit generated Flutter files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Setup Flutter Android project" || echo "No changes to commit"
+          git push
