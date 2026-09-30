@@ -32,21 +32,3 @@ jobs:
 
       - name: Build Flutter web
         run: flutter build web --release --base-href /
-
-      - name: Commit generated web files
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add -f build/web
-
-          if git diff --cached --quiet; then
-            echo "No changes to build/web"
-            exit 0
-          fi
-
-          git commit -m "Build Flutter web app"
-
-          git pull --rebase origin main
-
-          git push origin main
