@@ -1,8 +1,11 @@
 {
-  "buildCommand": "flutter build web --release --base-href /",
+  "buildCommand": "echo Using prebuilt Flutter web files",
   "outputDirectory": "build/web",
   "framework": null,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
