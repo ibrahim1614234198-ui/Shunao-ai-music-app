@@ -36,4 +36,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f build/web
           git diff --cached --quiet || git commit -m "Build Flutter web app"
-          git push
+          git pull --rebase --autostash origin main
+git push
