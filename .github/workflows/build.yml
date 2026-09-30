@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "build/web/**"
   workflow_dispatch:
 
 permissions:
@@ -16,8 +18,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          persist-credentials: true
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -35,6 +35,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f build/web
-          git diff --cached --quiet || git commit -m "Build Flutter web app"
-          git pull --rebase --autostash origin main
-git push
+          git diff --cached --quiet && exit 0
+          git commit -m "Build Flutter web app"
+          git push
